@@ -1,21 +1,18 @@
 {
-    "name": "log4js-node-mongodb",
-    "description": "A log4js-node log appender to write logs into MongoDB.",
-    "version": "2.2.1",
-    "homepage": "https://github.com/litixsoft/log4js-node-mongodb",
+    "name": "@starrah/log4js-node-mongodb",
+    "description": "A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.",
+    "version": "3.0.0",
     "repository": {
-        "type": "git",
-        "url": "https://github.com/litixsoft/log4js-node-mongodb.git"
+        "type": "Github",
+        "url": "https://github.com/Starrah/log4js-node-mongodb.git"
     },
     "bugs": {
-        "url": "https://github.com/litixsoft/log4js-node-mongodb/issues"
+        "url": "https://github.com/Starrah/log4js-node-mongodb/issues"
     },
-    "author": "Litixsoft GmbH <info@litixsoft.de> (http://www.litixsoft.de)",
-    "maintainers": [
-        "Andreas Krummsdorf <a.krummsdorf@litixsoft.de>",
-        "Thomas Scheibe <th.scheibe@litixsoft.de>"
-    ],
+    "author": "Starrah & Litixsoft GmbH",
     "contributors": [
+        "Andreas Krummsdorf",
+        "Thomas Scheibe",
         "Max Nachlinger",
         "Ilya Starostin",
         "Adam Ball"
@@ -31,7 +28,7 @@
     "licenses": [
         {
             "type": "MIT",
-            "url": "https://github.com/litixsoft/log4js-node-mongodb/blob/master/LICENSE"
+            "url": "https://github.com/Starrah/log4js-node-mongodb/blob/master/LICENSE"
         }
     ],
     "main": "lib/index.js",
@@ -51,11 +48,12 @@
         "grunt-open": "^0.2.3",
         "istanbul": "^0.4.4",
         "jasmine-node": "1.14.5",
-        "load-grunt-tasks": "^3.5.0"
+        "load-grunt-tasks": "^3.5.0",
+        "lodash": "^4.17.21"
     },
     "dependencies": {
-        "log4js": "^2",
+        "log4js": "^6.3.0",
         "lx-helpers": "^0.5.1",
-        "mongodb": "^2.2.5"
+        "mongodb": "^3.6.10"
     }
 }
