@@ -7,6 +7,7 @@ var sut = require('../../lib/index');
 var connectionString = 'mongodb://localhost:27017/test_log4js_mongo';
 var db;
 var appenderTypePath = 'lib/index';
+var sortBy = require('lodash/sortBy');
 
 describe('log4js-node-mongoappender', function () {
     beforeEach(function (done) {
@@ -68,14 +69,15 @@ describe('log4js-node-mongoappender', function () {
             db.collection('log').find({}).toArray(function (err, res) {
                 expect(err).toBeNull();
                 expect(res.length).toBe(3);
-                expect(res[0].category).toBe('default');
-                expect(res[0].data).toBe('Ready to log!');
-                expect(res[0].level).toEqual({ level: 20000, levelStr: 'INFO', colour: 'green' });
-                expect(res[1].data).toEqual({ a: 1 });
-                expect(res[1].level).toEqual({ level: 10000, levelStr: 'DEBUG', colour: 'cyan' });
-                expect(res[2].data._id.toString()).toEqual(id.toString());
-                expect(res[2].data._id instanceof mongodb.ObjectID).toBeTruthy();
-                expect(res[2].level).toEqual({ level: 40000, levelStr: 'ERROR', colour: 'red' });
+                res = sortBy(res, 'level.levelStr');
+                expect(res[0].data).toEqual({ a: 1 });
+                expect(res[0].level).toEqual({ level: 10000, levelStr: 'DEBUG', colour: 'cyan' });
+                expect(res[1].data._id instanceof mongodb.ObjectID).toBeTruthy();
+                expect(res[1].data._id && res[1].data._id.toString()).toEqual(id.toString());
+                expect(res[1].level).toEqual({ level: 40000, levelStr: 'ERROR', colour: 'red' });
+                expect(res[2].category).toBe('default');
+                expect(res[2].data).toBe('Ready to log!');
+                expect(res[2].level).toEqual({ level: 20000, levelStr: 'INFO', colour: 'green' });
 
                 done();
             });

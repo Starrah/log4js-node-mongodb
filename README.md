@@ -1,12 +1,16 @@
 # log4js-node-mongodb
 
-> A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.
+A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.
 
 > This package is derived from [log4js-node-mongodb](https://github.com/litixsoft/log4js-node-mongodb), which can only 
 be used with [log4js](https://www.npmjs.com/package/log4js) v2 and [mongodb](https://www.npmjs.com/package/mongodb) v2, 
 and lack of maintenance in recent years. 
 
-> [![Build Status](https://travis-ci.org/Starrah/log4js-node-mongodb.svg?branch=master)](https://travis-ci.org/Starrah/log4js-node-mongodb) [![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb.svg)](https://david-dm.org/Starrah/log4js-node-mongodb/) [![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb/dev-status.svg)](https://david-dm.org/Starrah/log4js-node-mongodb#info=devDependencies&view=table)
+[![npm version](https://badge.fury.io/js/%40starrah%2Flog4js-node-mongodb.svg)](https://www.npmjs.com/package/@starrah/log4js-node-mongodb)
+[![Downloads](https://img.shields.io/npm/dt/@starrah/log4js-node-mongodb)](https://www.npmjs.com/package/@starrah/log4js-node-mongodb)
+[![Build Status](https://travis-ci.com/Starrah/log4js-node-mongodb.svg?branch=master)](https://travis-ci.com/Starrah/log4js-node-mongodb) 
+[![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb.svg)](https://david-dm.org/Starrah/log4js-node-mongodb/) 
+[![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb/dev-status.svg)](https://david-dm.org/Starrah/log4js-node-mongodb#info=devDependencies&view=table)
 
 ## Install
 
