@@ -1,56 +1,38 @@
 # log4js-node-mongodb
 
-> A log4js-node log appender to write logs into MongoDB.
+> A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.
 
-> [![Build Status](https://travis-ci.org/litixsoft/log4js-node-mongodb.svg?branch=master)](https://travis-ci.org/litixsoft/log4js-node-mongodb) [![david-dm](https://david-dm.org/litixsoft/log4js-node-mongodb.svg)](https://david-dm.org/litixsoft/log4js-node-mongodb/) [![david-dm](https://david-dm.org/litixsoft/log4js-node-mongodb/dev-status.svg)](https://david-dm.org/litixsoft/log4js-node-mongodb#info=devDependencies&view=table)
+> This package is derived from [log4js-node-mongodb](https://github.com/litixsoft/log4js-node-mongodb), which can only 
+be used with [log4js](https://www.npmjs.com/package/log4js) v2 and [mongodb](https://www.npmjs.com/package/mongodb) v2, 
+and lack of maintenance in recent years. 
+
+> [![Build Status](https://travis-ci.org/Starrah/log4js-node-mongodb.svg?branch=master)](https://travis-ci.org/Starrah/log4js-node-mongodb) [![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb.svg)](https://david-dm.org/Starrah/log4js-node-mongodb/) [![david-dm](https://david-dm.org/Starrah/log4js-node-mongodb/dev-status.svg)](https://david-dm.org/Starrah/log4js-node-mongodb#info=devDependencies&view=table)
 
 ## Install
 
-    $ npm install log4js-node-mongodb
+    $ npm install @starrah/log4js-node-mongodb
 
 ## Documentation
 
 You can use this appender like all other log4js-node appenders. It just needs the connection-string to the mongo db. ([mongodb connection-string doku](http://docs.mongodb.org/manual/reference/connection-string/))
-The default collection used is log. You can log a `string` or any kind of `object`. The objects are stored as they are and not converted to strings.
+The default collection used is `log`. You can log a `string` or any kind of `object`. The objects are stored as they are and not converted to strings.
 
 ```js
-var log4js = require('log4js');
-var mongoAppender = require('log4js-node-mongodb');
-
-log4js.addAppender(
-    mongoAppender.appender({connectionString: 'localhost:27017/logs'}),
-    'cheese'
-);
-
-var logger = log4js.getLogger('cheese');
-logger.trace('Entering cheese testing');
-logger.debug('Got cheese.');
-logger.info('Cheese is Gouda.');
-logger.warn('Cheese is quite smelly.');
-logger.error('Cheese is too ripe!');
-logger.fatal('Cheese was breeding ground for listeria.');
-
-// log objects
-logger.info({id: 1, name: 'wayne'});
-logger.info([1, 2, 3]);
-```
-
-Or you can use the configure method.
-
-```js
-var log4js = require('log4js');
+const log4js = require('log4js');
+const MONGO_URI = 'mongodb://localhost:27017/test_log4js_mongo'
 
 log4js.configure({
-    appenders: [
-        {
-            type: 'console'
-        },
-        {
-            type: 'log4js-node-mongodb',
-            connectionString: 'localhost:27017/logs',
-            category: 'cheese'
+    appenders: {
+        console: {type: 'console'},
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb', // according to log4js documentation, string passed here will be used as the argument of calling `require`, so you don't need to manully require this package in your code.
+            connectionString: MONGO_URI
         }
-    ]
+    },
+    categories: {
+        default: {appenders: ['console', 'mongodb'], level: 'debug'}, // output logs to both console and mongodb 
+        // default: {appenders: ['mongodb'], level: 'debug'}, // output logs to mongodb only 
+    }
 });
 ```
 
@@ -69,19 +51,26 @@ The log data is stored in the following format.
 Here some examples.
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
+const MONGO_URI = 'mongodb://localhost:27017/test_log4js_mongo'
 
-log4js.addAppender(
-    mongoAppender.appender(
-        {connectionString: 'localhost:27017/logs'}),
-    'audit'
-);
+log4js.configure({
+    appenders: {
+        console: {type: 'console'},
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb', // according to log4js documentation, string passed here will be used as the argument of calling `require`, so you don't need to manully require this package in your code.
+            connectionString: MONGO_URI
+        }
+    },
+    categories: {
+        audit: {appenders: ['mongodb'], level: 'debug'}, // output logs to mongodb only 
+    }
+});
 
 var logger = log4js.getLogger('audit');
-logger.debug('Hello %s, your are the %d user logged in!', 'wayne', 10);
 
-// saved as
+logger.debug('Hello %s, your are the %d user logged in!', 'wayne', 10);
+/* saved as
 {
     _id: new ObjectID(),
     timestamp: new Date(),
@@ -92,10 +81,10 @@ logger.debug('Hello %s, your are the %d user logged in!', 'wayne', 10);
     },
     category: 'audit'
 }
+ */
 
 logger.info({id: 1, name: 'wayne'});
-
-// saved as
+/* saved as
 {
     _id: new ObjectID(),
     timestamp: new Date(),
@@ -109,7 +98,10 @@ logger.info({id: 1, name: 'wayne'});
     },
     category: 'audit'
 }
+ */
 ```
+
+For more usage, please see the [log4js documentation](https://log4js-node.github.io/log4js-node/).
 
 ### Configuration
 There are some options which can by set through the config object.
@@ -124,14 +116,18 @@ Required|`false`
 Default value|`{}`
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
 
-log4js.addAppender(
-    mongoAppender.appender({connectionString: 'localhost:27017/logs',
-                            connectionOptions : {server: {ssl: false, sslValidate: false}}}),
-    'cheese'
-);
+log4js.configure({
+    appenders: {
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb', 
+            connectionString: 'mongodb://localhost:27017/test_log4js_mongo',
+            connectionOptions : {server: {ssl: false, sslValidate: false}}
+        }
+    },
+    categories: {default: {appenders: ['mongodb'], level: 'debug'}}
+});
 ```
 
 #### connectionString
@@ -144,13 +140,17 @@ Required|`true`
 Default value|
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
 
-log4js.addAppender(
-    mongoAppender.appender({connectionString: 'localhost:27017/logs'}),
-    'cheese'
-);
+log4js.configure({
+    appenders: {
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb',
+            connectionString: 'mongodb://localhost:27017/test_log4js_mongo',
+        }
+    },
+    categories: {default: {appenders: ['mongodb'], level: 'debug'}}
+});
 ```
 
 #### collectionName
@@ -163,16 +163,18 @@ Required|`false`
 Default value|`'log'`
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
 
-log4js.addAppender(
-    mongoAppender.appender({
-        connectionString: 'localhost:27017/logs',
-        collectionName: 'audit'
-    }),
-    'cheese'
-);
+log4js.configure({
+    appenders: {
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb',
+            connectionString: 'mongodb://localhost:27017/test_log4js_mongo',
+            collectionName: 'audit'
+        }
+    },
+    categories: {default: {appenders: ['mongodb'], level: 'debug'}}
+});
 ```
 
 #### write
@@ -188,37 +190,23 @@ There are 3 options available. The default value is 'fast'.
 
 .|mongo options object|error logging
 ---|---|---
-fast|`{w: 0}`|`no`
-normal|`{w: 1}`|`yes`
-safe|`{w: 1, journal: true}`|`yes`
+fast|`{writeConcern: {w: 0}}`|`no`
+normal|`{writeConcern: {{w: 1}}`|`yes`
+safe|`{writeConcern: {{w: 1, journal: true}}`|`yes`
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
 
-// fast write mode
-log4js.addAppender(
-    mongoAppender.appender({connectionString: 'localhost:27017/logs'}),
-    'cheese'
-);
-
-// normal write mode
-log4js.addAppender(
-    mongoAppender.appender({
-        connectionString: 'localhost:27017/logs',
-        write: 'normal'
-    }),
-    'cheese'
-);
-
-// safe write mode
-log4js.addAppender(
-    mongoAppender.appender({
-        connectionString: 'localhost:27017/logs',
-        write: 'safe'
-    }),
-    'cheese'
-);
+log4js.configure({
+    appenders: {
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb',
+            connectionString: 'mongodb://localhost:27017/test_log4js_mongo',
+            write: 'fast' // or 'normal' 'safe'
+        }
+    },
+    categories: {default: {appenders: ['mongodb'], level: 'debug'}}
+});
 ```
 
 #### layout
@@ -231,61 +219,34 @@ Required|`false`
 Default value|`'messagePassThroughLayout'`
 
 ```js
-var log4js = require('log4js'),
-    mongoAppender = require('log4js-node-mongodb');
+const log4js = require('log4js');
 
-log4js.addAppender(
-    mongoAppender.appender({
-        connectionString: 'localhost:27017/logs',
-        layout: 'colored'
-    }),
-    'cheese'
-);
+log4js.configure({
+    appenders: {
+        mongodb: {
+            type: '@starrah/log4js-node-mongodb',
+            connectionString: 'mongodb://localhost:27017/test_log4js_mongo',
+            layout: 'colored'
+        }
+    },
+    categories: {default: {appenders: ['mongodb'], level: 'debug'}}
+});
 ```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com/).
 
 ## Release History
-### v2.2.1
-* Update mongodb driver
-
-### v2.2.0
-* Fix problem when saving data which includes mongodb ObjectID's
-
-### v2.1.0
-* Add property `connectionOptions` to configuration options
-
-### v2.0.0
-* Use native mongodb node.js driver instead of mongojs
-
-### v1.0.0
-* add support for MongoDB 3.x
-
-### v0.1.5
-* wrap Errors in a new object because otherwhise they are saved as an empty object {}
-
-### v0.1.4
-* Errors are now saved as string (previously saved as empty object)
-
-### v0.1.3
-* Date and Regexp objects are now saved correctly (previously saved as {})
-
-### v0.1.2
-* replace keys when logging an object to prevent mongo exception
-* $ is converted to "_dollar_" (only replaced at start of key)
-* . is converted to "_dot_" (all occurrences are replaced)
-
-### v0.1.1
-* Safely check if the log message is a string
-
-### v0.1.0 project initial
+### v3.0.0
+* modify the API used to make it suitable for log4js v6 and mongdb v3
 
 ## Author
-[Litixsoft GmbH](http://www.litixsoft.de)
+Original by [Litixsoft GmbH](http://www.litixsoft.de) ([origin repository](https://github.com/litixsoft/log4js-node-mongodb))
+This package by [Starrah](https://github.com/Starrah) (npm [@starrah/log4js-node-mongodb](https://www.npmjs.com/package/@starrah/log4js-node-mongodb))
 
 ## License
-Copyright (C) 2013-2017 Litixsoft GmbH <info@litixsoft.de>
+Copyright (c) 2013-2017 Litixsoft GmbH <info@litixsoft.de>
+Copyright (c) 2021 Starrah
 Licensed under the MIT license.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
