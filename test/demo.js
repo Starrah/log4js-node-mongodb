@@ -1,24 +1,24 @@
 'use strict';
 
-var lib = require('../lib');
 var log4js = require('log4js');
 var mongodb = require('mongodb');
 var url = 'localhost:27017/test_log4js_mongo';
 
-// logger
-var appenders = [
-    {
-        type: 'console'
+var log4js_config = {
+    appenders: {
+        console: {type: 'console'},
+        mongodb: {
+            type: '../lib',
+            connectionString: url
+        }
     },
-    {
-        type: 'log4js-node-mongodb',
-        category: 'demo',
-        level: 'DEBUG',
-        connectionString: url
+    categories: {
+        default: {appenders: ['console', 'mongodb'], level: 'debug'}, // output logs to both console and mongodb
     }
-];
+};
 
-mongodb.MongoClient.connect('mongodb://' + url, function (err, db) {
+mongodb.MongoClient.connect('mongodb://' + url, function (err, client) {
+    var db = client && client.db();
     if (err || !db) {
         return console.log(err || new Error('Unknown error, no database returned.'));
     }
@@ -29,8 +29,8 @@ mongodb.MongoClient.connect('mongodb://' + url, function (err, db) {
     var collection = db.collection('log');
 
     collection.removeMany({}, function () {
-        log4js.addAppender(lib.configure(appenders[1]));
-        var logger = log4js.getLogger('demo');
+        log4js.configure(log4js_config);
+        var logger = log4js.getLogger();
         var i = 500;
 
         for (var u = 0; u < i; u++) {
@@ -46,7 +46,7 @@ mongodb.MongoClient.connect('mongodb://' + url, function (err, db) {
             clearInterval(interval);
 
             setTimeout(function () {
-                db.close(function () {
+                client.close(function () {
                     process.exit(0);
                 });
             }, 2000);
