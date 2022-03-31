@@ -1,13 +1,13 @@
 import { AppenderFunction, LayoutsParam, LoggingEvent } from 'log4js';
 import log4js = require('log4js');
+import os = require('os');
+import mongodb = require('mongodb');
+import getMongoDb from './sources/getMongoDb';
 import {
     IMongoClient,
     IMongoDefinition,
     MongoAppenderConfiguration,
-} from '../types';
-import os = require('os');
-import mongodb = require('mongodb');
-import getMongoDb from './sources/getMongoDb';
+} from '../types/types';
 
 const logger = log4js.getLogger();
 let dbConnection: mongodb.Collection;

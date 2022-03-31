@@ -34,8 +34,9 @@
     ],
     "main": "lib/index.js",
     "scripts": {
-        "test": "grunt test",
-        "demo": "node ./test/demo.js"
+        "test": "jest",
+        "build": "npm run tslint && rm -rf ./dist && npx tsc",
+        "tslint": "tslint -c tslint.json -p tsconfig.json"
     },
     "directories": {
         "lib": "./lib"

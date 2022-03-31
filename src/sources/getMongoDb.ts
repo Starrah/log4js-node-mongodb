@@ -1,10 +1,11 @@
 import mongodb = require('mongodb');
-import { IMongoDefinition } from '../../types';
+import { IMongoDefinition } from '../../types/types';
 import * as log4js from 'log4js';
 
-let client: mongodb.MongoClient | undefined;
-let db: mongodb.Db | undefined;
+let client: mongodb.MongoClient;
+let db: mongodb.Db;
 let collection: mongodb.Collection;
+
 const MongoClient = mongodb.MongoClient;
 const dbLogger = mongodb.Logger;
 const logger = log4js.getLogger();

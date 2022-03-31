@@ -1,5 +1,6 @@
 import mongodb = require('mongodb');
-import { LoggingEvent, log4js, Level, Config, LayoutsParam } from 'log4js';
+import { Level, Config } from 'log4js';
+import { LoggerLevel } from 'mongodb';
 
 export interface MongoAppenderConfiguration extends Config {
     /** Log4js type */
@@ -56,18 +57,5 @@ export interface IEnvInfo {
     hostName?: string;
     server?: string;
 }
-/*
-export interface ILogMessage {
-    /** @description datime of message
-    timeStamp: Date;
-    /** @description message level
-    messageType: string;
-    /** @description application name
-    appName: string;
-    /** @description application content
-    content: {} | undefined;
-    /** @description application envirioment
-    env: any | undefined;
-}
-*/
-export function configure(config: MongoAppenderConfiguration): Log4js;
+
+//export function configure(config: MongoAppenderConfiguration): Log4js;
