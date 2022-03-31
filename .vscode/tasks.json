@@ -1,0 +1,35 @@
+// https://www.flikk.net/2019/10/02/vscode-cannot-find-js-tsc-module/
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "delete_dist",
+            "type": "shell",
+            "windows": {
+                "command": "Remove-Item",
+                "args": [
+                    "dist",
+                    "-Recurse",
+                    "-Force",
+                    "-Confirm:$false"
+                ]
+            }
+        },
+        {
+            "label": "precompile_compile",
+            "dependsOn" : ["delete_dist"],
+            "type": "shell",
+            "command" : "tsc",
+            "args": [
+                "-p",
+                "\"${workspaceFolder}/tsconfig.json\""
+            ],
+        },
+        {
+            "label": "precompileW",
+            "dependsOn": [
+                "precompile_compile"
+            ]
+        }
+    ]
+}

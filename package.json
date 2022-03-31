@@ -1,5 +1,5 @@
 {
-    "name": "@starrah/log4js-node-mongodb",
+    "name": "log4js-mongodb",
     "description": "A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.",
     "version": "3.0.0",
     "repository": {
@@ -15,7 +15,8 @@
         "Thomas Scheibe",
         "Max Nachlinger",
         "Ilya Starostin",
-        "Adam Ball"
+        "Adam Ball",
+        "Jiri Vrabec"
     ],
     "keywords": [
         "log4js",
@@ -39,22 +40,14 @@
     "directories": {
         "lib": "./lib"
     },
-    "devDependencies": {
-        "grunt": "1.0.1",
-        "grunt-bg-shell": "^2.3.3",
-        "grunt-contrib-clean": "^1.0.0",
-        "grunt-contrib-jshint": "^1.0.0",
-        "grunt-jasmine-node": "^0.3.1",
-        "grunt-open": "^0.2.3",
-        "istanbul": "^0.4.4",
-        "jasmine-node": "1.14.5",
-        "load-grunt-tasks": "^3.5.0",
-        "lodash": "^4.17.21"
-    },
     "dependencies": {
-        "log4js": "^6.3.0",
-        "lx-helpers": "^0.5.1",
-        "mongodb": "^3.6.10"
+        "log4js": "^6.4.4",
+        "mongodb": "^4.4.1"
     },
-    "private": false
+    "private": false,
+    "devDependencies": {
+        "@types/typescript": "^2.0.0",
+        "prettier": "^2.6.1",
+        "typescript": "^4.6.3"
+    }
 }
