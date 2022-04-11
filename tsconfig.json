@@ -3,7 +3,6 @@
       "target": "es6",
       "module": "commonjs",
       "outDir": "dist",
-      "declaration": true,
       "checkJs": true,
       "removeComments": true,
       "strict": true,
@@ -15,10 +14,8 @@
       "pretty": true,
       "sourceMap": true,
       "lib": ["es2017", "dom"],
-      "allowSyntheticDefaultImports": true,
       "skipLibCheck": true,
   },
   "include": ["src/**/*", "types/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts", "**/*__mocks__*", "**/*__tests__*", "**/*__debug__*", "**/*.debug.ts"]
-
+  "exclude": [ "node_modules", "**/*.spec.ts", "**/*.test.ts", "**/__tests__/*", "**/*__mocks__*" ]
 }

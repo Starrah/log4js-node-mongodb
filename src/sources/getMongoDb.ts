@@ -1,6 +1,5 @@
 import mongodb = require('mongodb');
-import { IMongoDefinition } from '../../types/types';
-import * as log4js from 'log4js';
+import { IMongoDefinition } from '../../types';
 
 let client: mongodb.MongoClient;
 let db: mongodb.Db;
@@ -8,18 +7,17 @@ let collection: mongodb.Collection;
 
 const MongoClient = mongodb.MongoClient;
 const dbLogger = mongodb.Logger;
-const logger = log4js.getLogger();
 
 /**
  * @see https://mongodb.github.io/node-mongodb-native/3.6/api/Logger.html#.setCurrentLogger
  */
 dbLogger.setCurrentLogger((_msg, context) => {
     if (context?.type === 'debug') {
-        logger.debug(context);
+        console.debug(context);
     } else if (context?.type === 'info') {
-        logger.info(context);
+        console.info(context);
     } else {
-        logger.error({
+        console.error({
             error: new Error(context?.message),
             extraInfo: {
                 logPrefix: `${__filename}[getMongoDb]: `,
@@ -45,8 +43,11 @@ export default function getMongoDb(
     } else {
         const logPrefix = `${__filename}[${getMongoDb.name}]: `;
 
-        dbLogger.setLevel(config.logLevel);
-        logger.debug(`${logPrefix}Connect to ${config.url}`);
+        if (config.logLevel) {
+            dbLogger.setLevel(config.logLevel);
+        }
+
+        console.debug(logPrefix, config.url);
 
         MongoClient.connect(config.url, config.options, (err, newClient) => {
             if (err || !newClient) {
@@ -59,9 +60,10 @@ export default function getMongoDb(
                     extraInfo: {
                         function: logPrefix,
                         newClient: newClient,
+                        config: config,
                     },
                 };
-                logger.error(logErr);
+                console.error(logErr);
 
                 cb(err, undefined);
             } else {

@@ -1,10 +1,12 @@
+import { LoggingEvent, Level, Log4js } from 'log4js';
 import mongodb = require('mongodb');
-import { Level, Config } from 'log4js';
-import { LoggerLevel } from 'mongodb';
 
-export interface MongoAppenderConfiguration extends Config {
+export function configure(config: MongoAppenderConfiguration): Log4js;
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+export interface MongoAppenderConfiguration {
     /** Log4js type */
-    type: 'log4js-mongo';
+    type: 'log4js-db-mongo';
     /** Parent connection to DB */
     mongoSetting: IMongoClient | IMongoDefinition;
     /** */
@@ -49,13 +51,5 @@ export interface IMongoDefinition {
     };
     database: string;
     collection: string;
-    logLevel: LoggerLevel;
+    logLevel: mongodb.LoggerLevel;
 }
-
-export interface IEnvInfo {
-    platform?: string;
-    hostName?: string;
-    server?: string;
-}
-
-//export function configure(config: MongoAppenderConfiguration): Log4js;

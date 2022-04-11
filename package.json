@@ -1,54 +1,43 @@
 {
-    "name": "log4js-mongodb",
-    "description": "A log4js-node log appender to write logs into MongoDB, suitable for log4js v6.x.x and mongodb v3.x.x.",
-    "version": "3.0.0",
-    "repository": {
-        "type": "Github",
-        "url": "https://github.com/Starrah/log4js-node-mongodb.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Starrah/log4js-node-mongodb/issues"
-    },
-    "author": "Starrah & Litixsoft GmbH",
-    "contributors": [
-        "Andreas Krummsdorf",
-        "Thomas Scheibe",
-        "Max Nachlinger",
-        "Ilya Starostin",
-        "Adam Ball",
-        "Jiri Vrabec"
-    ],
-    "keywords": [
-        "log4js",
-        "mongo",
-        "mongodb",
-        "logging",
-        "log"
-    ],
-    "license": "MIT",
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/Starrah/log4js-node-mongodb/blob/master/LICENSE"
-        }
-    ],
-    "main": "lib/index.js",
-    "scripts": {
-        "test": "jest",
-        "build": "npm run tslint && rm -rf ./dist && npx tsc",
-        "tslint": "tslint -c tslint.json -p tsconfig.json"
-    },
-    "directories": {
-        "lib": "./lib"
-    },
-    "dependencies": {
-        "log4js": "^6.4.4",
-        "mongodb": "^4.4.1"
-    },
-    "private": false,
-    "devDependencies": {
-        "@types/typescript": "^2.0.0",
-        "prettier": "^2.6.1",
-        "typescript": "^4.6.3"
-    }
+  "name": "log4js-db-mongodb",
+  "version": "0.0.20",
+  "description": "MongoDb Appender for log4js-node",
+  "homepage": "https://log4js-node.github.io/log4js-node/",
+  "main": "./dist/src/index.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "npm run tslint && rm -rf ./dist && tsc",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "keywords": [
+    "logging",
+    "log",
+    "log4js",
+    "node",
+    "rest"
+  ],
+  "author": "Jiri Vrabec",
+  "license": "ISC",
+  "dependencies": {
+    "log4js": "^6.3.0",
+    "mongodb": "^4.2.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^16.11.6",
+    "@types/request": "^2.48.7",
+    "@types/typescript": "^2.0.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "tslint": "^6.0.0",
+    "typescript": "^4.4.4"
+  }
 }
