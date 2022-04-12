@@ -1,5 +1,5 @@
 import mongodb = require('mongodb');
-import { IMongoDefinition } from '../../types';
+import { IMongoDefinition } from '../../types/types';
 
 let client: mongodb.MongoClient;
 let db: mongodb.Db;

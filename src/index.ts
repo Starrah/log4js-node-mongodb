@@ -1,7 +1,7 @@
 import log4js = require('log4js');
 import { getMongoCollection } from './libs/get-mongo-collection';
 import mongodb = require('mongodb');
-import { MongoAppenderConfiguration } from '../types';
+import { MongoAppenderConfiguration } from '../types/types';
 
 let dbConnection: mongodb.Collection;
 
@@ -9,7 +9,10 @@ let dbConnection: mongodb.Collection;
  * Exported configuration function to init appender
  * @param config
  */
-export const configure = (config: MongoAppenderConfiguration) => {
+export const configure = (
+    config: MongoAppenderConfiguration,
+    _layouts: log4js.LayoutsParam
+) => {
     return Log(config);
 };
 

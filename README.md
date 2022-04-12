@@ -1,37 +1,41 @@
 # Rest Appender for log4js-node
 
-Sends [log] events to a [REST] api. This is an optional appender for use with [log4js](https://log4js-node.github.io/log4js-node/).
+Sends [log] events to a [mongodb]. This is an optional appender for use with [log4js](https://log4js-node.github.io/log4js-node/).
 
 ## Configuration
 ```bash
 npm install log4js
-npm install log4js-rest
+npm install log4js-db-mongodb
 npm install os
 ```
 ## Example
 
 ```javascript
 import log4js = require('log4js');
-import { Log4JsRestAppender } from 'log4js-rest';
 import os = require('os');
 
 log4js.configure({
     appenders: {
         consoleAppender: { type: 'console' },
-        restAppender: {
-            type: Log4JsRestAppender,
-            url: 'https://your.rest-api.server/log-api/',
-            appName: 'suppliers',
-            level: 'INFO',
-            env: { host: os.hostname(), type: os.platform(), hostname: os.hostname(), },
-            minLevel: log4js.levels.WARN,
-            maxLevel: log4js.levels.FATAL,
-            collectionName:'your_collection_name_in_db'
-        }
+        dbAppender: {
+                type: 'log4js-db-mongodb',
+                mongoSetting: {
+                    url: 'mongodb+srv://@bull-wsttp.mongodb.net/',
+                    options: {
+                        useNewUrlParser: true,
+                        useUnifiedTopology: true,
+                        ignoreUndefined: true,
+                    },
+                    database: 'messenger',
+                    collection: 'log',
+                },
+                minLevel: levels.DEBUG,
+                maxLevel: levels.FATAL,
+            },
     },
     categories: {
         default: {
-            appenders: ['consoleAppender', 'restAppender'],
+            appenders: ['consoleAppender', 'dbAppender'],
             level: 'DEBUG'
         }
     }

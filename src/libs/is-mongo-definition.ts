@@ -1,4 +1,4 @@
-import { IMongoClient, IMongoDefinition } from '../../types';
+import { IMongoClient, IMongoDefinition } from '../../types/types';
 
 /**
  * @description Returns if parametr is IMongoClient or IMongoDefinition

@@ -1,9 +1,11 @@
-import { LoggingEvent, Level, Log4js } from 'log4js';
 import mongodb = require('mongodb');
 
-export function configure(config: MongoAppenderConfiguration): Log4js;
-////////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * @description
+ *
+ * @export
+ * @interface MongoAppenderConfiguration
+ */
 export interface MongoAppenderConfiguration {
     /** Log4js type */
     type: 'log4js-db-mongodb';

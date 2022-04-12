@@ -1,5 +1,5 @@
-import { MongoAppenderConfiguration } from '../../types';
-import getMongoDb from '../sources/getMongoDb';
+import { MongoAppenderConfiguration } from '../../types/types';
+import getMongoDb from '../sources/get-mongo-db';
 import { isMongoDefinition } from './is-mongo-definition';
 import mongodb = require('mongodb');
 
