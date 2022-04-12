@@ -1,5 +1,5 @@
 import log4js = require('log4js');
-import { InitDb } from './libs/init-db';
+import { getMongoCollection } from './libs/get-mongo-collection';
 import mongodb = require('mongodb');
 import { MongoAppenderConfiguration } from '../types';
 
@@ -46,7 +46,7 @@ function Log(config: MongoAppenderConfiguration) {
             return;
         }
 
-        InitDb(config, dbConnection, (errConnection, respConnection) => {
+        getMongoCollection(config, dbConnection, (errConnection, respConnection) => {
             if (!errConnection && respConnection) {
                 dbConnection = respConnection;
                 respConnection.insertOne(

@@ -1,20 +1,20 @@
 import { MongoAppenderConfiguration } from '../../types';
 import getMongoDb from '../sources/getMongoDb';
-import { isClient } from './is-client';
+import { isMongoDefinition } from './is-mongo-definition';
 import mongodb = require('mongodb');
 
 /**
- * @description Init Db connection
+ * @description Init mongodb collection
  *
  * @param {MongoAppenderConfiguration} config
  */
-export function InitDb(
+export function getMongoCollection(
     config: MongoAppenderConfiguration,
     dbConnection: mongodb.Collection | undefined,
     cb: (err: Error | undefined, resp: mongodb.Collection | undefined) => void
 ): void {
     if (!dbConnection && config) {
-        if (isClient(config.mongoSetting)) {
+        if (isMongoDefinition(config.mongoSetting)) {
             getMongoDb(config.mongoSetting, (err, collection) => {
                 if (err || !collection) {
                     cb(err, undefined);

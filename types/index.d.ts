@@ -9,14 +9,8 @@ export interface MongoAppenderConfiguration {
     type: 'log4js-db-mongodb';
     /** Parent connection to DB */
     mongoSetting: IMongoClient | IMongoDefinition;
-    /** */
+    /**layout */
     layout: any;
-    /** @description envirioment aplikace ktera loguje */
-    //env?: IEnvInfo;
-    /** @description nazev aplikace ktera loguje */
-    //appName: string;
-    /** @description content aplikace ktera loguje */
-    //content?: any;
     /** @description min level pro zapis pokud se pouziva vice appenderu, vychazi z loggingEvent.level.level; */
     minLevel?: Level;
     /** @description max level pro zapis pokud se pouziva vice appenderu, vychazi z loggingEvent.level.level; */
@@ -44,11 +38,7 @@ export interface IMongoClient {
 export interface IMongoDefinition {
     /** @description Mongo connection string: MONGO_URL="mongodb+srv://bull-wsttp.mongodb.net/" */
     url: string;
-    options: {
-        useNewUrlParser: boolean;
-        useUnifiedTopology: boolean;
-        ignoreUndefined: boolean;
-    };
+    options: mongodb.MongoClientOptions;
     database: string;
     collection: string;
     logLevel: mongodb.LoggerLevel;

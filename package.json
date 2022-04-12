@@ -13,11 +13,10 @@
     "test": "jest",
     "build": "npm run tslint && rm -rf ./dist && tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-
     "tslintW": "npm run tslint",
     "removeW": "RMDIR /S /Q dist",
     "compileW": "tsc",
-    "buildW" : "npm run tslintW && npm run removeW && npm run compileW"
+    "buildW": "npm run tslintW && npm run removeW && npm run compileW"
   },
   "keywords": [
     "logging",
