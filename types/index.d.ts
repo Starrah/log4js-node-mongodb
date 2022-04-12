@@ -6,7 +6,7 @@ export function configure(config: MongoAppenderConfiguration): Log4js;
 
 export interface MongoAppenderConfiguration {
     /** Log4js type */
-    type: 'log4js-db-mongo';
+    type: 'log4js-db-mongodb';
     /** Parent connection to DB */
     mongoSetting: IMongoClient | IMongoDefinition;
     /** */
