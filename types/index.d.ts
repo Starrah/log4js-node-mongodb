@@ -9,12 +9,6 @@ export interface MongoAppenderConfiguration {
     type: 'log4js-db-mongodb';
     /** Parent connection to DB */
     mongoSetting: IMongoClient | IMongoDefinition;
-    /**layout */
-    layout: any;
-    /** @description min level pro zapis pokud se pouziva vice appenderu, vychazi z loggingEvent.level.level; */
-    minLevel?: Level;
-    /** @description max level pro zapis pokud se pouziva vice appenderu, vychazi z loggingEvent.level.level; */
-    maxLevel?: Level;
 }
 
 /**

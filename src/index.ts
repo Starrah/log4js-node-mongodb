@@ -10,9 +10,6 @@ let dbConnection: mongodb.Collection;
  * @param config
  */
 export const configure = (config: MongoAppenderConfiguration) => {
-    config.minLevel = config.minLevel || log4js.levels.ERROR;
-    config.maxLevel = config.maxLevel || log4js.levels.FATAL;
-
     return Log(config);
 };
 
@@ -35,31 +32,27 @@ function Log(config: MongoAppenderConfiguration) {
     const logPrefix = `${__filename}[${Log.name}]:`;
 
     return (loggingEvent: any) => {
-        const actLevel = log4js.levels.getLevel(loggingEvent.level.levelStr);
-
-        if (
-            config.minLevel &&
-            config.maxLevel &&
-            (actLevel.level < config.minLevel.level ||
-                actLevel.level > config.maxLevel.level)
-        ) {
-            return;
-        }
-
-        getMongoCollection(config, dbConnection, (errConnection, respConnection) => {
-            if (!errConnection && respConnection) {
-                dbConnection = respConnection;
-                respConnection.insertOne(
-                    loggingEvent,
-                    (errInsert, respInsert) => {
-                        if (errInsert) {
-                            console.error(logPrefix, errInsert);
-                        } else {
-                            console.info(logPrefix, JSON.stringify(respInsert));
+        getMongoCollection(
+            config,
+            dbConnection,
+            (errConnection, respConnection) => {
+                if (!errConnection && respConnection) {
+                    dbConnection = respConnection;
+                    respConnection.insertOne(
+                        loggingEvent,
+                        (errInsert, respInsert) => {
+                            if (errInsert) {
+                                console.error(logPrefix, errInsert);
+                            } else {
+                                console.info(
+                                    logPrefix,
+                                    JSON.stringify(respInsert)
+                                );
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
-        });
+        );
     };
 }
