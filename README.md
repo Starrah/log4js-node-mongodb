@@ -4,23 +4,47 @@ Sends [log] events to a [mongodb]. This is an optional appender for use with [lo
 
 ## Configuration
 ```bash
-npm install log4js
-npm install log4js-db-mongodb
+npm install @onio/log4js-mongodb
 npm install os
 ```
 ## Example
 
 ```javascript
-import log4js = require('log4js');
+import { configure, levels } from 'log4js';
+import * as log4js from 'log4js';
 import os = require('os');
+import * as rest from 'log4js-rest';
 
-log4js.configure({
-    appenders: {
-        consoleAppender: { type: 'console' },
-        dbAppender: {
+const loggers: { [key: string]: log4js.Logger } = {};
+
+/**
+ * @description Get logger with configuration
+ */
+export default function getLogger(category?: string): log4js.Logger {
+    if (!category) {
+        category = '';
+    }
+    if (loggers[category] === undefined) {
+        configureLog4js();
+        loggers[category] = log4js.getLogger(category);
+    }
+    return loggers[category];
+}
+
+/**
+ * @description Log4js konfiguration
+ */
+function configureLog4js(): void {
+    const curentAppenders: Array<string> = [];
+    curentAppenders.push('restAppender');
+    curentAppenders.push('just_errors');
+
+    configure({
+        appenders: {
+            dbAppender: {
                 type: 'log4js-db-mongodb',
                 mongoSetting: {
-                    url: 'mongodb+srv://@bull-wsttp.mongodb.net/',
+                    url: 'mongodb+srv://logging:iyBQ4FxqWOHwQiOI@bull-wsttp.mongodb.net/messenger',
                     options: {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
@@ -31,18 +55,35 @@ log4js.configure({
                 },
                 minLevel: levels.DEBUG,
                 maxLevel: levels.FATAL,
+                layout: {},
             },
-    },
-    categories: {
-        default: {
-            appenders: ['consoleAppender', 'dbAppender'],
-            level: 'DEBUG'
-        }
-    }
-});
-const logger = log4js.getLogger();
+            restAppender: {
+                type: 'log4js-rest',
+                url: 'https://api.onio.cz/log-api/',
+                appName: 'config.http.nginxPrefix',
+                env: {
+                    type: os.platform(),
+                    hostname: os.hostname(),
+                },
+                minLevel: levels.DEBUG,
+                maxLevel: levels.FATAL,
+            } as rest.RestAppender,
+            just_errors: {
+                type: 'logLevelFilter',
+                appender: 'dbAppender',
+                level: 'ERROR',
+            },
+        },
+        categories: {
+            default: {
+                appenders: curentAppenders,
+                level: 'DEBUG',
+            },
+        },
+    });
+}
+
+const logger = getLogger();
 logger.warn('App start');
 
 ```
-
-This configuration will send all messages to the `url` address.

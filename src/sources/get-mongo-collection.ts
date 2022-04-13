@@ -1,19 +1,24 @@
 import { MongoAppenderConfiguration } from '../../types/types';
-import getMongoDb from '../sources/get-mongo-db';
-import { isMongoDefinition } from './is-mongo-definition';
+import getMongoDb from './get-mongo-db';
+import { isMongoDefinition } from './helpers/is-mongo-definition';
 import mongodb = require('mongodb');
 
 /**
  * @description Init mongodb collection
  *
- * @param {MongoAppenderConfiguration} config
+ * @export
+ * @param {(mongodb.Collection | undefined)} dbCollection saved connection
+ * @param {MongoAppenderConfiguration} config Configuration to mongo
+ * @param {((err: Error | undefined, resp: mongodb.Collection | undefined) => void)} cb
  */
 export function getMongoCollection(
+    dbCollection: mongodb.Collection | undefined,
     config: MongoAppenderConfiguration,
-    dbConnection: mongodb.Collection | undefined,
     cb: (err: Error | undefined, resp: mongodb.Collection | undefined) => void
 ): void {
-    if (!dbConnection && config) {
+    if (dbCollection) {
+        cb(undefined, dbCollection);
+    } else if (config) {
         if (isMongoDefinition(config.mongoSetting)) {
             getMongoDb(config.mongoSetting, (err, collection) => {
                 if (err || !collection) {
@@ -23,10 +28,12 @@ export function getMongoCollection(
                 }
             });
         } else {
-            const result = config.mongoSetting.client
+            const result: mongodb.Collection = config.mongoSetting.client
                 .db(config.mongoSetting.database)
                 .collection(config.mongoSetting.collection);
             cb(undefined, result);
         }
+    } else {
+        cb(new Error('No config or collection definned!'), undefined);
     }
 }

@@ -1,5 +1,5 @@
 import log4js = require('log4js');
-import { getMongoCollection } from './libs/get-mongo-collection';
+import { getMongoCollection } from './sources/get-mongo-collection';
 import mongodb = require('mongodb');
 import { MongoAppenderConfiguration } from '../types/types';
 
@@ -32,12 +32,12 @@ export const MongoDbAppender: log4js.AppenderModule = {
  * @returns
  */
 function Log(config: MongoAppenderConfiguration) {
-    const logPrefix = `${__filename}[${Log.name}]:`;
+    const logPrefix = `${__filename}[${Log.name}]`;
 
     return (loggingEvent: any) => {
         getMongoCollection(
-            config,
             dbConnection,
+            config,
             (errConnection, respConnection) => {
                 if (!errConnection && respConnection) {
                     dbConnection = respConnection;
@@ -54,6 +54,8 @@ function Log(config: MongoAppenderConfiguration) {
                             }
                         }
                     );
+                } else {
+                    console.error(logPrefix, errConnection);
                 }
             }
         );

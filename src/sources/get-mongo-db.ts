@@ -28,8 +28,18 @@ dbLogger.setCurrentLogger((_msg, context) => {
 });
 
 /**
+ *
+ * @param {(err: Error | undefined, collection: mongodb.Collection | undefined ) => void)}
+ */
+/**
  * @description It keeps MongoDb connection in RAM.
- * @param {(err: Error | undefined, client: MongoClient | undefined ) => void)} cb Callback function with error and db.
+ *
+ * @export
+ * @param {IMongoDefinition} config  Configuration to mongo
+ * @param {((
+ *         err: Error | undefined,
+ *         collection: mongodb.Collection | undefined
+ *     ) => void)} cb Callback function with error and db.
  */
 export default function getMongoDb(
     config: IMongoDefinition,

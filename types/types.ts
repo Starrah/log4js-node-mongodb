@@ -8,8 +8,8 @@ import mongodb = require('mongodb');
  */
 export interface MongoAppenderConfiguration {
     /** Log4js type */
-    type: 'log4js-db-mongodb';
-    /** Parent connection to DB */
+    type: '@onio/log4js-mongodb';
+    /** Parent connection to mongoDb or connection properties to mongoDb*/
     mongoSetting: IMongoClient | IMongoDefinition;
 }
 
