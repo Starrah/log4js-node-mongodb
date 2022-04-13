@@ -11,7 +11,7 @@ let dbConnection: mongodb.Collection;
  * @param { MongoAppenderConfiguration } config
  * @param { log4js.LayoutsParam } layouts
  */
-const configure = (
+export const configure = (
     config: MongoAppenderConfiguration,
     layouts: log4js.LayoutsParam
 ) => {
