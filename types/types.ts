@@ -1,14 +1,14 @@
 import mongodb = require('mongodb');
 
 /**
- * @description
+ * @description Basic configuration for appender
  *
  * @export
  * @interface MongoAppenderConfiguration
  */
 export interface MongoAppenderConfiguration {
     /** Log4js type */
-    type: '@onio/log4js-mongodb';
+    type: 'log4js-db-mongodb';
     /** Parent connection to mongoDb or connection properties to mongoDb*/
     mongoSetting: IMongoClient | IMongoDefinition;
 }

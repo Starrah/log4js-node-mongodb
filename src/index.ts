@@ -1,25 +1,25 @@
 import log4js = require('log4js');
+import { MongoAppenderConfiguration } from '../types/types';
 import { getMongoCollection } from './sources/get-mongo-collection';
 import mongodb = require('mongodb');
-import { MongoAppenderConfiguration } from '../types/types';
 
+/** @description local variable to save connection to database */
 let dbConnection: mongodb.Collection;
 
 /**
  * Exported configuration function to init appender
- * @param config
+ * @param { MongoAppenderConfiguration } config
+ * @param { log4js.LayoutsParam } layouts
  */
-export const configure = (
+const configure = (
     config: MongoAppenderConfiguration,
-    _layouts: log4js.LayoutsParam
+    layouts: log4js.LayoutsParam
 ) => {
-    return Log(config);
+    return Log(config, layouts);
 };
 
 /**
  * @description Exported AppenderModule function to init
- * @export
- * @param {RestAppenderConfig} config
  * @returns
  */
 export const MongoDbAppender: log4js.AppenderModule = {
@@ -28,13 +28,18 @@ export const MongoDbAppender: log4js.AppenderModule = {
 
 /**
  * @description Base appender function
- * @param {RestAppenderConfig} config
- * @returns
+ *
+ * @param {MongoAppenderConfiguration} config
+ * @param {log4js.LayoutsParam} layouts
+ * @return {*}
  */
-function Log(config: MongoAppenderConfiguration) {
+function Log(config: MongoAppenderConfiguration, layouts: log4js.LayoutsParam) {
     const logPrefix = `${__filename}[${Log.name}]`;
+    const fnLayouts = layouts;
 
-    return (loggingEvent: any) => {
+    return (loggingEvent: log4js.LoggingEvent) => {
+        console.debug(fnLayouts);
+
         getMongoCollection(
             dbConnection,
             config,

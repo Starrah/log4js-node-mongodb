@@ -1,6 +1,6 @@
 {
   "name": "log4js-db-mongodb",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "MongoDb Appender for log4js-node",
   "homepage": "https://log4js-node.github.io/log4js-node/",
   "main": "./dist/src/index.js",
