@@ -31,7 +31,7 @@ export const MongoDbAppender: log4js.AppenderModule = {
  *
  * @param {MongoAppenderConfiguration} config
  * @param {log4js.LayoutsParam} layouts
- * @return {*}
+ * @return {*}  {log4js.AppenderFunction}
  */
 function Log(
     config: MongoAppenderConfiguration,
