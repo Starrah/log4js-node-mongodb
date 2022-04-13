@@ -33,7 +33,10 @@ export const MongoDbAppender: log4js.AppenderModule = {
  * @param {log4js.LayoutsParam} layouts
  * @return {*}
  */
-function Log(config: MongoAppenderConfiguration, layouts: log4js.LayoutsParam) {
+function Log(
+    config: MongoAppenderConfiguration,
+    layouts: log4js.LayoutsParam
+): log4js.AppenderFunction {
     const logPrefix = `${__filename}[${Log.name}]`;
     const fnLayouts = layouts;
 
