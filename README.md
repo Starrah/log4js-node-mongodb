@@ -12,8 +12,6 @@ npm install os
 ```javascript
 import { configure, levels } from 'log4js';
 import * as log4js from 'log4js';
-import os = require('os');
-import * as rest from 'log4js-rest';
 
 const loggers: { [key: string]: log4js.Logger } = {};
 
@@ -53,21 +51,8 @@ function configureLog4js(): void {
                     database: 'messenger',
                     collection: 'log',
                 },
-                minLevel: levels.DEBUG,
-                maxLevel: levels.FATAL,
                 layout: {},
             },
-            restAppender: {
-                type: 'log4js-rest',
-                url: 'https://api.onio.cz/log-api/',
-                appName: 'config.http.nginxPrefix',
-                env: {
-                    type: os.platform(),
-                    hostname: os.hostname(),
-                },
-                minLevel: levels.DEBUG,
-                maxLevel: levels.FATAL,
-            } as rest.RestAppender,
             just_errors: {
                 type: 'logLevelFilter',
                 appender: 'dbAppender',

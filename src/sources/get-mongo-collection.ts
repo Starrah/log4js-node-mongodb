@@ -14,7 +14,7 @@ import mongodb = require('mongodb');
 export function getMongoCollection(
     dbCollection: mongodb.Collection | undefined,
     config: MongoAppenderConfiguration,
-    cb: (err: Error | undefined, resp: mongodb.Collection | undefined) => void
+    cb: (err: Error | undefined, resp: mongodb.Collection | undefined) => void,
 ): void {
     if (dbCollection) {
         cb(undefined, dbCollection);

@@ -8,7 +8,7 @@ import { IMongoClient, IMongoDefinition } from '../../../types/types';
  * @see https://stackoverflow.com/questions/14425568/interface-type-check-with-typescript -> How about User-Defined Type Guards?
  */
 export function isMongoDefinition(
-    client: IMongoClient | IMongoDefinition
+    client: IMongoClient | IMongoDefinition,
 ): client is IMongoDefinition {
     return (<IMongoDefinition>client).collection !== undefined;
 }

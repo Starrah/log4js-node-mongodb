@@ -8,12 +8,13 @@ let dbConnection: mongodb.Collection;
 
 /**
  * Exported configuration function to init appender
- * @param { MongoAppenderConfiguration } config
- * @param { log4js.LayoutsParam } layouts
+ *
+ * @param { MongoAppenderConfiguration } config Configuration for appender
+ * @param { log4js.LayoutsParam } layouts Layout for appender
  */
 export const configure = (
     config: MongoAppenderConfiguration,
-    layouts: log4js.LayoutsParam
+    layouts: log4js.LayoutsParam,
 ) => {
     return Log(config, layouts);
 };
@@ -29,20 +30,17 @@ export const MongoDbAppender: log4js.AppenderModule = {
 /**
  * @description Base appender function
  *
- * @param {MongoAppenderConfiguration} config
- * @param {log4js.LayoutsParam} layouts
+ * @param {MongoAppenderConfiguration} config Configuration for appender
+ * @param {log4js.LayoutsParam} layouts Layout for appender
  * @return {*}  {log4js.AppenderFunction}
  */
 function Log(
     config: MongoAppenderConfiguration,
-    layouts: log4js.LayoutsParam
+    _layouts: log4js.LayoutsParam,
 ): log4js.AppenderFunction {
     const logPrefix = `${__filename}[${Log.name}]`;
-    const fnLayouts = layouts;
 
     return (loggingEvent: log4js.LoggingEvent) => {
-        console.debug(fnLayouts);
-
         getMongoCollection(
             dbConnection,
             config,
@@ -57,15 +55,15 @@ function Log(
                             } else {
                                 console.info(
                                     logPrefix,
-                                    JSON.stringify(respInsert)
+                                    JSON.stringify(respInsert),
                                 );
                             }
-                        }
+                        },
                     );
                 } else {
                     console.error(logPrefix, errConnection);
                 }
-            }
+            },
         );
     };
 }

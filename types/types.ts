@@ -1,7 +1,7 @@
 import mongodb = require('mongodb');
 
 /**
- * @description Basic configuration for appender
+ * @description Configuration for appender
  *
  * @export
  * @interface MongoAppenderConfiguration
